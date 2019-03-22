@@ -1,13 +1,13 @@
 
 
 
-# Annotated Lyrics: Are they *"Genius?"*
+# Doc2Vec and Annotated Lyrics: Are they *"Genius?"*
 ![](images/genius_header2.png)
 ### Using Doc2Vec to Evaluate Crowdsourced Lyric Annotations on Genius.com
 
-Capstone II Project for Galvanize Data Science Immersive
+*Capstone II Project for Galvanize Data Science Immersive*
 
-by Taite Sandefer
+*by Taite Sandefer*
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -17,12 +17,13 @@ by Taite Sandefer
 - [Results](#results)
 
 
-![](images/genius_biggest_collection.png)
-
 
 # Introduction
 ## What is Genius?
 [Genius](https://genius.com/), formerly "Rap Genius," is a website where users can view and add annotations to lyrics that help explain their meaning and context.
+
+![](images/genius_biggest_collection.png)
+
 
 ![](images/how_genius_works.png)
 
@@ -128,7 +129,7 @@ Unfortunately, the Genius API does not provide access to data on "rejected" anno
 - Votes per 100k viewers
 - Character count for text
 - Word count for text
-- Cosine Similarity of annotation-lyric pair
+- Cosine Similarity of annotation-lyric pairs
 
 
 [Back to Top](#Table-of-Contents)
@@ -210,8 +211,10 @@ Distributed Memory Model
 
 * Distributed Memory architecture 
 * trained on untagged lyric & annotations
+* Corpus was lowercased, included punctuation, and not stemmed or lemmatized when tokenized
 * vector_size = 100 (# of neurons in hidden layer)
 * window = 5
+* 100 epochs
 
 [Back to Top](#Table-of-Contents)
 
@@ -222,7 +225,7 @@ Using the preferred model specifications described above:
 ![](images/legend2.png)
 
 ## Hypothesis Testing
-Using the cosine similarities calculated across annotation-lyric pairs for each of the groups, hypothesis testing yielded interesting results!
+Using the cosine similarities calculated across annotation-lyric pairs for "true" and "mistmatched" groups, hypothesis testing yielded interesting results!
 
 
 ```H0: The mean of the Cosine Similarity for non-pairs is equal to the mean of the cosine similarity for pairs```
