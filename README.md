@@ -78,7 +78,7 @@ But, the words that occur around "like" and "love" are likely similar and could 
 ![](images/pmi_funct.png)
 
 
-## Learning a word from its context
+## Learning a Word from its Context
 ```"Tell me who your friends are, and I'll tell you who you are"```
 
 Doc2Vec is a neural network model that strives to learn how to best encode words, and documents, into vectors that represent their contextual orientation, based on what it learned in training.
@@ -88,7 +88,7 @@ Doc2Vec is a neural network model that strives to learn how to best encode words
 
 The idea is that as you read lines of text, a latent "context window" traverses through the text and captures the aggregate meaning of the words within, but continues to shift and evolve as it moves along the text.
 
-### Additive Properties of Word/Doc2Vec
+### Interesting Properties of Word/Doc2Vec
 
 ![](images/analogy.png)
 
@@ -125,15 +125,15 @@ I pulled the text and other characteristic features for annotations and their co
 Unfortunately, the Genius API does not provide access to data on "rejected" annotations. Thus, we need to use other features to help us distinguish between "good" and "bad" annotations.
 
 ### Engineered Features
-- votes per 100k viewers
-- character count for text
-- word count for text
+- Votes per 100k viewers
+- Character count for text
+- Word count for text
 - Cosine Similarity of annotation-lyric pair
 
 
 [Back to Top](#Table-of-Contents)
 
-# Exploratory Data Analysis
+## Distribution of Groups
 
 ### Top 12 Artists on Genius
 
@@ -157,7 +157,7 @@ Unfortunately, the Genius API does not provide access to data on "rejected" anno
 
 ![](images/annotations_voters_stdz.jpg)
 
-## EDA Takeaways
+## Engineering Data for Testing
 
 It looks like "Votes" might not be a great metric for determinng whether an annotation is good or not!
 
@@ -179,9 +179,9 @@ If the DocVecs were able to pick up on the relevant context patterns, I'd expect
 
 ## Key Choices
 ### Training Data
-With 2 distinct different types of text, which I'm trying to represent in the same context window space, what should my model be trained on?
+With two distinct types of text that need to be encoded in comparable context window dimensions, which should my model be trained on?
 
-* Trained 4 different variations for comparison
+Trained 4 different training corpus variations for comparison:
   * Lyrics only
   * Annotations only
   * Lyrics & Annotations
@@ -191,12 +191,6 @@ With 2 distinct different types of text, which I'm trying to represent in the sa
 Distributed Memory Model
 
 ![](images/d2v.png)
-
-
-## Hyperparameters
-* vector_size = 100
-* window = 5
-
 
 ## Model Evaluation
 
@@ -212,15 +206,16 @@ Distributed Memory Model
 ![](images/legend1.png)
 
 
-## Chosen Model Specs
+## Chosen Model Specs (So Far)
 
+* Distributed Memory architecture 
 * trained on untagged lyric & annotations
 * vector_size = 100 (# of neurons in hidden layer)
 * window = 5
 
-# Results
-So... Now that we have chosen and trained a Doc2Vec model... Is there a difference?!
+[Back to Top](#Table-of-Contents)
 
+# Results
 Using the preferred model specifications described above:
 
 ![](images/cs_dist_rt100.jpg)
@@ -242,6 +237,6 @@ This p-value is very close to zero, and we can reject the null at the 99% confid
 
 Thus, the evidence suggests that using a Doc2Vec model to infer vector representations of annotations and lyrics could be effective in determining whether or not annotations are relevant to the lyrics they're describing.
 
-
+[Back to Top](#Table-of-Contents)
 
 [Back to Top](#Table-of-Contents)
