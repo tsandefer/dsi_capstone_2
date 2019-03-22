@@ -202,6 +202,8 @@ Distributed Memory Model
   * Find the most similar DocVector, based on training
   * What percentage of the training dataset can the model accurately predict as its own best contextual match?
   * Standard: 95% and above
+  * Each of my models were achieving self-recognition for around 97-99.4% of the training data
+   * Except for the model that I trained on tagged annotations and lyrics, which achieved roughly 17%
 
 - Comparison against best/worst pairs classified by Standardized Votes
 
