@@ -3,7 +3,7 @@
 
 # Doc2Vec and Annotated Lyrics: Are they *"Genius?"*
 ![](images/genius_header2.png)
-### Using Doc2Vec to Evaluate Crowdsourced Lyric Annotations on Genius.com
+### Using Gensim's Doc2Vec to Evaluate Crowdsourced Lyric Annotations on Genius.com
 
 *Capstone II Project for Galvanize Data Science Immersive*
 
@@ -211,6 +211,7 @@ Distributed Memory Model
 
 ## Chosen Model Specs (So Far)
 
+* Gensim's Doc2Vec Model
 * Distributed Memory architecture 
 * trained on untagged lyric & annotations
 * Corpus was lowercased, included punctuation, and not stemmed or lemmatized when tokenized
