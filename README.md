@@ -1,7 +1,7 @@
 
 
 
-# Annotations and Lyrics: Are they *"Genius?"*
+# Annotated Lyrics: Are they *"Genius?"*
 ![](images/genius_header2.png)
 ### Using Doc2Vec to Evaluate Crowdsourced Lyric Annotations on Genius.com
 
@@ -13,8 +13,8 @@ by Taite Sandefer
 - [Introduction](#introduction)
 - [Strategy and Process](#strategy-and-process)
 - [Overview of the Data](#overview-of-the-data)
-- [Model Selection][#model-selection]
-- [Results][#results]
+- [Model Selection](#model-selection)
+- [Results](#results)
 
 
 ![](images/genius_biggest_collection.png)
@@ -239,4 +239,15 @@ Thus, the evidence suggests that using a Doc2Vec model to infer vector represent
 
 [Back to Top](#Table-of-Contents)
 
+# Conclusion
+
+While I did find a model that produced interesting results, more data is necessary to produce reliable results. Most research published recommends having a dataset in the millions, not few thousand, so that the model will not be subject to overfitting.
+
+It also seems like my assumption about the nature of Genius annotations does not hold as well as I expected. Many of the annotations I observed during this project were "off topic", in my opinion, and tended to link lyrics to outside cultural events, rather than focusing on explaining their meaning. 
+
+## Future Work
+
+We may have found evidence supporting the claim that Doc2Vec can help distinguish between "good" and "bad" annotation pairs, but more research is needed with more data. The results of this project show that this dataset isn't ideal, but that we still have something to learn from lyric-annotation Doc2Vecs that could be useful in creating an automatic evaluation system for annotations. 
+
 [Back to Top](#Table-of-Contents)
+
