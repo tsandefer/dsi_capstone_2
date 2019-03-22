@@ -44,7 +44,9 @@ If the moderators are busy, or uninterested, good annotations can go unreviewed 
 ## A Potential Solution
 Thanks to some exciting innovations in NLP over the past few years, it might be possible to create an evaluation system that is able to automatically accept/reject user-submitted annotations.
 
-In order to create a system like this, we must consider: **What makes a "good" Genius annotation?**
+In order to create a system like this, we must consider: 
+
+**What makes a "good" Genius annotation?**
 
 ![](images/good_tates.png)
 
