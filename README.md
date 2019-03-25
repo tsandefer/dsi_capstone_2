@@ -33,10 +33,10 @@
 ## Problem
 Today, the Genius system still relies heavily on crowdsourced human work. When an annotation gets posted, it must be read and "accepted" by a higher-ranking user in the community for it to stick on the public lyrics page.
 
+* Time
 * Human error
     * Accepting "bad" annotations (FP)
     * Rejecting "good" annotations (FN)
-* Time
 
 If the moderators are busy, or uninterested, good annotations can go unreviewed and unposted. Additionally, a grumpy moderator might let poor annotations slip through, or choose to trash good annotations. If moderators do take the time to read through annotations, it's likely to take up a lot of their time. If it were possible to reliably automate this process, it would likely save time and increase the accuracy of evaluation.
 
