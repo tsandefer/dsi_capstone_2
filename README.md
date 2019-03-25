@@ -9,6 +9,8 @@
 
 *by Taite Sandefer*
 
+*Last Updated: 3/25/19*
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Strategy and Process](#strategy-and-process)
@@ -253,4 +255,6 @@ It also seems like my assumption about the nature of Genius annotations does not
 We may have found evidence supporting the claim that Doc2Vec can help distinguish between "good" and "bad" annotation pairs, but more research is needed with more data. The results of this project show that this dataset isn't ideal, but that we still have something to learn from lyric-annotation Doc2Vecs that could be useful in creating an automatic evaluation system for annotations. 
 
 [Back to Top](#Table-of-Contents)
+
+
 
