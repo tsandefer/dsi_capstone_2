@@ -226,7 +226,7 @@ Using the preferred model specifications described above:
 Using the cosine similarities calculated across annotation-lyric pairs for "true" and "mistmatched" groups, hypothesis testing yielded interesting results!
 
 
-```H0: The mean of the Cosine Similarity for non-pairs is equal to the mean of the cosine similarity for pairs```
+```H0: The mean of the Cosine Similarity for false-match pairs is equal to the mean of the Cosine Similarity for true-match pairs```
 
 |Statistic | Result |
 |--- | --- |
