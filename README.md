@@ -87,19 +87,28 @@ But, the words that occur around "like" and "love" are likely similar and could 
 
 Doc2Vec is a neural network model that strives to learn how to best encode words, and documents, into vectors that represent their contextual orientation, based on what it learned in training.
 
-> "Tell me who your friends are, and I'll tell you who you are"
-
 The idea is that as you read lines of text, a latent "context window" traverses through the text and captures the aggregate meaning of the words within, but continues to shift and evolve as it moves along the text.
+
+
+> "Tell me who your friends are, and I'll tell you who you are"
 
 > “The meaning of a word can be inferred by the company it keeps"
 
 
-### Interesting Properties of Word/Doc2Vec
+### Properties of Word/Doc2Vec
+
+Interestingly, Word2Vec vectors have been found to have arithmetic properties that resemble word analogies when properly trained. For example, when you subtract the word vector for queen from the vector for king, you get roughly the same result as when you subtract the vector for woman from the vector for man. 
 
 ![](images/analogy.png)
 
 ![](images/w2v.png)
 
+Will this work similarly for Doc2Vec vectors when the semantic or contextual meanings between two documents are similar? 
+
+The idea behind this project is that the DocVec representations of lyric segments and their corresponding annotations will be inherently more similar if they are good annotations, whereas those of bad annotations will not be similar. If this is true, then we can systematically use this metric to infer the DocVec representations of unseen annotations to determine whether they should be "accepted" or not. 
+
+
+### Architecture of Doc2Vec
 
 As an extension of Word2Vec, which was originally published in 2013, Doc2Vec has two architectural flavors.
 
@@ -246,13 +255,17 @@ It's important to note that this particular hypothesis test is done to determine
 
 # Conclusion
 
+Although we did find a Doc2Vec model that produced interesting results in two-tailed hypothesis testing, it's important to note that the difference between these distributions was not strong enough to distinguish "true" and "false" pairs on its own. This shows us that this metric may be helpful, but it's not enough on its own to determine whether we should accept an annotation. We might be able to increase the complexity of these representations, which could help make their representations more distinct from each other, by increasing the number of nodes in the hidden layer of the Doc2Vec network, but this would require a lot more data and leave the model more vulnerable to overfitting. 
+
+Until then, it'd be necessary to include other metrics in our final model to help distinguish between good and bad annotation groups. 
+
 While I did find a model that produced interesting results, more data is necessary to produce reliable results. Most research published recommends having a dataset in the millions, not few thousand, so that the model will not be subject to overfitting.
 
-It also seems like my assumption about the nature of Genius annotations does not hold as well as I expected. Many of the annotations I observed during this project were "off topic", in my opinion, and tended to link lyrics to outside cultural events, rather than focusing on explaining their meaning. 
+It also seems like my assumption about the nature of Genius annotations does not hold as well as I expected. Many of the annotations I observed during this project were "off topic", at least in my opinion, and tended to link lyrics to indirect outside cultural events, rather than focusing on explaining their meaning. 
 
 ## Future Work
 
-We may have found evidence supporting the claim that Doc2Vec can help distinguish between "good" and "bad" annotation pairs, but more research is needed with more data. The results of this project show that this dataset isn't ideal, but that we still have something to learn from lyric-annotation Doc2Vecs that could be useful in creating an automatic evaluation system for annotations. 
+We may have found evidence supporting the claim that Doc2Vec can help distinguish between "good" and "bad" annotation pairs, but more research is needed with more data. The investigation of this project has revealed that this dataset might not satisfy the necessary assumptions, but that we still have something to learn from lyric-annotation Doc2Vecs that could be useful in creating an automatic evaluation system for annotations. 
 
 [Back to Top](#Table-of-Contents)
 
