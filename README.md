@@ -162,17 +162,9 @@ Unfortunately, the Genius API does not provide access to data on "rejected" anno
 
 ## Engineering Data for Testing
 
-It looks like "Votes" might not be a great metric for determinng whether an annotation is good or not!
+It looks like "Votes" might not be a great metric for determinng whether an annotation is good or not! However, there are many studies in the past that have had promising experiences using Doc2Vec to predict whether a piece of text is similar to another piece of text. Researchers have often created datasets to do this by mixing up pairings between sentences and paragraphs, which they do or don't belong to, and compared the similarity of vectors from true matches and false matches.
 
-However, there are many studies in the past that have had promising experiences using Doc2Vec to predict whether a piece of text is similar to another piece of text.
-
-Researchers have often created datasets to do this by mixing up pairings between sentences and paragraphs, which they do or don't belong to, and compared the similarity of vectors from true matches and false matches.
-
-For testing, I decided to randomly assign lyric-annotation pairs that were tied to music from different artists.
-
-Then, I wanted to examine whether there was a statistically significant difference between the true pairs and the mismatched pairs of lyrics and annotations.
-
-If the DocVecs were able to pick up on the relevant context patterns, I'd expect "good"/"true" pairs to be more similar than their "bad"/"mismatched" partners.
+For testing, I decided to randomly assign lyric-annotation pairs that were tied to music from different artists. Then, I wanted to examine whether there was a statistically significant difference between the true pairs and the mismatched pairs of lyrics and annotations. If the DocVecs were able to pick up on the relevant context patterns, I'd expect "good"/"true" pairs to be more similar than their "bad"/"mismatched" partners.
 
 
 [Back to Top](#Table-of-Contents)
@@ -241,9 +233,11 @@ Using the cosine similarities calculated across annotation-lyric pairs for "true
 |p-val| 1.1e-171 |
 
 
-This p-value is very close to zero, and we can reject the null at the 99% confidence level, given the observed data and other assumptions holding true.
+This p-value is very close to zero, allowing us to reject the null hypothesis at the 99% confidence level, given the observed data and that other assumptions hold true.
 
-Thus, the evidence suggests that using a Doc2Vec model to infer vector representations of annotations and lyrics could be effective in determining whether or not annotations are relevant to the lyrics they're describing.
+Therefore, this evidence suggests that using a Doc2Vec model to infer vector representations of annotations and lyrics could be effective in determining whether or not annotations are relevant to the lyrics they're describing. 
+
+It's important to note that this particular hypothesis test is done to determine whether the means of the cosine similarities for the true-match and the false-match pairs are statistically different from each other, when doc2vec DocVectors are obtained from a model trained on the preferred specifications (outlined above). This shows that it is possible obtain the results we hoped to find, using Doc2Vec, but it doesn't necessarily prove that they are reliable or that it is truly measuring the difference in meaning across these lyric-annotation pairs. It merely shows that there is more work to be done! 
 
 [Back to Top](#Table-of-Contents)
 
