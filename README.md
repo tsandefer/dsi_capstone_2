@@ -82,14 +82,15 @@ But, the words that occur around "like" and "love" are likely similar and could 
 
 
 ## Learning a Word from its Context
-```"Tell me who your friends are, and I'll tell you who you are"```
 
 Doc2Vec is a neural network model that strives to learn how to best encode words, and documents, into vectors that represent their contextual orientation, based on what it learned in training.
 
-```“The meaning of a word can be inferred by the company it keeps"```
-
+> "Tell me who your friends are, and I'll tell you who you are"
 
 The idea is that as you read lines of text, a latent "context window" traverses through the text and captures the aggregate meaning of the words within, but continues to shift and evolve as it moves along the text.
+
+> “The meaning of a word can be inferred by the company it keeps"
+
 
 ### Interesting Properties of Word/Doc2Vec
 
