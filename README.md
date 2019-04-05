@@ -24,12 +24,14 @@
 ## What is Genius?
 [Genius](https://genius.com/), formerly "Rap Genius," is a website where users can view and add annotations to lyrics that help explain their meaning and context.
 
-![](images/genius_biggest_collection.png)
 
-
-![](images/how_genius_works.png)
-
-![](images/genius_annotation.png)
+<p align="center">
+  <img src="images/genius_biggest_collection.png" width = 400>
+   <br></br>
+  <img src="images/how_genius_works.png" width = 370 height = 145>  
+  <img src="images/genius_annotation.png" width = 430 height = 150>
+  <img src="images/genius_demo2.gif" width = 800>
+</p>
 
 
 ## Problem
