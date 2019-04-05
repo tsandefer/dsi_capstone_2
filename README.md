@@ -26,6 +26,8 @@ by Taite Sandefer
 
 ![](images/how_genius_works.png)
 
+![](images/genius_demo2.gif)
+
 ![](images/genius_annotation.png)
 
 
