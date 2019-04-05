@@ -52,22 +52,29 @@ In order to create a system like this, we must consider:
 
 **What makes a "good" Genius annotation?**
 
-![](images/good_tates.png)
+<p align="center">
+  <img src="images/good_tates.png" width = 400>
+</p>
+
 
 The main goal of Genius is to explain lyrics and help make them more accessible to listeners. Generally, these are explanations regarding the semantic and/or cultural meanings behind lyrics, which can often cryptic and filled with linguistic subtleties that we wouldn't normally expect a computer to pick up on, like the double meaning in this line of Frank Ocean's *Pilot Jones*:
 
-![](images/frank_ann.png)
+<p align="center">
+  <img src="images/frank_ann.png" width = 400>
+  <br></br>
+  <img src="images/frank.png" width = 400>
+</p>
 
-![](images/frank.png)
 
 However, annotations can be anything that helps add to the experience of the music, which isn't limited to this sort of explanation. For example, verified artists can annotate their own lyrics, and often discuss how they were feeling the day they wrote the lines, rather than explaining the meaning behind them.
 
 Eminem does this a lot, actually. For example...
 
-![](images/rapgod_lyric.png)
-
-![](images/rapgod_tate.png)
-
+<p align="center">
+  <img src="images/rapgod_lyric.png" width = 400>
+  <br></br>
+  <img src="images/rapgod_tate.png" width = 400>
+</p>
 
 # Strategy and Process
 ## Why not BoW?
@@ -78,11 +85,13 @@ For example, the words "like" and "love" are almost identical in semantic meanin
 ## Doc2Vec to the Rescue!
 But, the words that occur around "like" and "love" are likely similar and could tell us more about their actual usage patterns. That's what Doc2Vec uses to help pick up on more subtle linguistic patterns, which is why Doc2Vec is likely better suited to this lyric-annotation problem than other text-encoding methods.
 
-![](images/PMI.png)
-
-![](images/pmi_ii.png)
-
-![](images/pmi_funct.png)
+<p align="center">
+  <img src="images/PMI.png" width = 300>
+  <br></br>
+  <img src="images/pmi_ii.png" width = 800>
+  <br></br>
+  <img src="images/pmi_funct.png" width = 800>
+</p>
 
 
 ## Learning a Word from its Context
@@ -101,9 +110,11 @@ The idea is that as you read lines of text, a latent "context window" traverses 
 
 Interestingly, Word2Vec vectors have been found to have arithmetic properties that resemble word analogies when properly trained. For example, when you subtract the word vector for queen from the vector for king, you get roughly the same result as when you subtract the vector for woman from the vector for man. 
 
-![](images/analogy.png)
-
-![](images/w2v.png)
+<p align="center">
+  <img src="images/analogy.png" width = 500>
+  <br></br>
+  <img src="images/w2v.png" width = 500>
+</p>
 
 Will this work similarly for Doc2Vec vectors when the semantic or contextual meanings between two documents are similar? 
 
@@ -120,7 +131,9 @@ As an extension of Word2Vec, which was originally published in 2013, Doc2Vec has
     * Pr(surrounding words | word)
     * Generally has been found to perform better, particularly with semantic tasks
 
-![](images/doc2vec.png)
+<p align="center">
+  <img src="images/doc2vec.png" width = 600>
+</p>
 
 
 ## Necessary Assumptions
@@ -170,9 +183,11 @@ Unfortunately, the Genius API does not provide access to data on "rejected" anno
 |12| Beyoncé | 12 | 115 |
 
 
-![](images/annotations_votersi.jpg)
+<p align="center">
+  <img src="images/annotations_votersi.jpg" width = 400>
+  <img src="images/annotations_voters_stdz.jpg" width = 400>
+</p>
 
-![](images/annotations_voters_stdz.jpg)
 
 ## Engineering Data for Testing
 
@@ -199,7 +214,9 @@ Trained 4 different training corpus variations for comparison:
 ## Model Architecture
 Distributed Memory Model
 
-![](images/d2v.png)
+<p align="center">
+  <img src="images/d2v.png" width = 400>
+</p>
 
 ## Model Evaluation
 
@@ -213,9 +230,11 @@ Distributed Memory Model
 
 - Comparison against best/worst pairs classified by Standardized Votes
 
-![](images/cs_sim_final.png)
-![](images/legend1.png)
-
+<p align="center">
+  <img src="images/cs_sim_final.png" width = 800>
+  <br></br>
+  <img src="images/legend1.png" width = 600>
+</p>
 
 ## Chosen Model Specs (So Far)
 
@@ -232,8 +251,11 @@ Distributed Memory Model
 # Results
 Using the preferred model specifications described above:
 
-![](images/cs_dist_rt100.jpg)
-![](images/legend2.png)
+<p align="center">
+  <img src="images/cs_dist_rt100.jpg" width = 800>
+  <br></br>
+  <img src="images/legend2.png" width = 300>
+</p>
 
 ## Hypothesis Testing
 Using the cosine similarities calculated across annotation-lyric pairs for "true" and "mistmatched" groups, hypothesis testing yielded interesting results!
