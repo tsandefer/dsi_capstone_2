@@ -322,6 +322,9 @@ It's important to note that this particular hypothesis test is done to determine
 ## Results & Interpretation 
 ### Visualization: Reducing Dimensionality with t-SNE 
 
+<p align="center">
+  <img src="images/comp_dist_3D_dv_reps.png" width = 900>
+</p>
 
 [Back to Top](#Table-of-Contents)
 
@@ -345,17 +348,17 @@ We may have found evidence supporting the claim that Doc2Vec can help distinguis
 - Cohort Peers working with NLP: Matt Devor, Aiden Jared, Lei Shan
 - johnwmillr's [LyricsGenius](https://github.com/johnwmillr/LyricsGenius)
 - [Gensim's Doc2Vec model](https://radimrehurek.com/gensim/models/doc2vec.html)
-- [Robert Meyer's Presentation from PyData's 2017 Berlin Conference] (https://www.youtube.com/watch?v=zFScws0mb7M)
+- [Robert Meyer's Presentation from PyData's 2017 Berlin Conference](https://www.youtube.com/watch?v=zFScws0mb7M)
 - [Andy Jones' blog on the mechanics of Word2Vec](https://andyljones.tumblr.com/post/111299309808/why-word2vec-works)
 
 ## Citations
-Word2Vec Paper
+### Word2Vec Paper
 [Mikolov, T., Sutskever, I., Chen, K., Corrado, G. S., & Dean, J. (2013). Distributed representations of words and phrases and their compositionality. In Advances in neural information processing systems (pp. 3111-3119).](https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf)
 
-Random Walks on Context Spaces Paper
+### Random Walks on Context Spaces Paper
 [Arora, S., Li, Y., Liang, Y., Ma, T., & Risteski, A. (2015). Rand-walk: A latent variable model approach to word embeddings. arXiv preprint arXiv:1502.03520.](https://arxiv.org/abs/1502.03520)
 
-Doc2Vec Papers
+### Doc2Vec Papers
 [Le, Q., & Mikolov, T. (2014, January). Distributed representations of sentences and documents. In International conference on machine learning (pp. 1188-1196).](https://arxiv.org/abs/1405.4053)
 
 [Lau, J. H., & Baldwin, T. (2016). An empirical evaluation of doc2vec with practical insights into document embedding generation. arXiv preprint arXiv:1607.05368.](https://arxiv.org/abs/1607.05368)
