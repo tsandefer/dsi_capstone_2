@@ -1,29 +1,40 @@
-
-
-
 # Doc2Vec and Annotated Lyrics: Are they *"Genius?"*
 ![](images/genius_header2.png)
 ### Using Gensim's Doc2Vec to Evaluate Crowdsourced Lyric Annotations on Genius.com
 
-*Capstone II Project for Galvanize Data Science Immersive*
+*Capstone II Project for Galvanize Data Science Immersive, Week 8*
 
 *by Taite Sandefer*
 
-*Last Updated: 3/25/19*
+*Last Updated: 4/7/19*
 
 ## Table of Contents
 - [Introduction](#introduction)
-- [Strategy and Process](#strategy-and-process)
-- [Overview of the Data](#overview-of-the-data)
+  - [Background](#background)
+  - [Assumptions & Hypothesis](#question-&-hypothesis)
+  - [Methodology](#methodology) 
+- [Data Overview](#data-overview)
+  - [Exploratory Data Analysis](#exploratory-data-analysis)
+  - [Engineered Features](#engineered-features)
+  - [Challenges](#challenges)
 - [Model Selection](#model-selection)
-- [Results](#results)
-
+  - [Model Architecture](#model-architecture)
+  - [Training Corpus](#training-corpus)
+  - [Hyperparameter Tuning](#hyperparameter-tuning)
+  - [Performance Metrics](#performance-metrics)
+- [Chosen Model](#chosen-model)
+  - [Specifications](#specifications)
+  - [Model Assessment](#model-assessment)
+  - [Results & Interpretation](#results-&-interpretation)
+- [Conclusion](#model-selection)
+- [Acknowledgements](#acknowledgements])
+  -[Citations](#citations)
 
 
 # Introduction
-## What is Genius?
+## Background
+### What is Genius?
 [Genius](https://genius.com/), formerly "Rap Genius," is a website where users can view and add annotations to lyrics that help explain their meaning and context.
-
 
 <p align="center">
   <img src="images/genius_biggest_collection.png" width = 400>
@@ -33,8 +44,10 @@
   <img src="images/genius_demo2.gif" width = 800>
 </p>
 
+The primary goal of Genius is to explain lyrics and help make them more accessible to listeners. Generally, these are explanations regarding the semantic and/or cultural meanings behind lyrics, which can often cryptic and filled with linguistic subtleties that we wouldn't normally expect a computer to be able to pick up on. 
 
-## Problem
+
+### Problem
 Today, the Genius system still relies heavily on crowdsourced human work. When an annotation gets posted, it must be read and "accepted" by a higher-ranking user in the community for it to stick on the public lyrics page.
 
 If the moderators are busy, or uninterested, good annotations can go unreviewed and unposted. Additionally, a grumpy moderator might let poor annotations slip through, or choose to trash good annotations. If moderators do take the time to read through annotations, it's likely to take up a lot of their time. If it were possible to reliably automate this process, it would likely save time and increase the accuracy of evaluation.
@@ -44,27 +57,19 @@ If the moderators are busy, or uninterested, good annotations can go unreviewed 
     * Accepting "bad" annotations (FP)
     * Rejecting "good" annotations (FN)
 
-
-## A Potential Solution
-Thanks to some exciting innovations in NLP over the past few years, it might be possible to create an evaluation system that is able to automatically accept/reject user-submitted annotations.
-
-In order to create a system like this, we must consider: 
-
-**What makes a "good" Genius annotation?**
+So, what makes a good Genius annotation? 
 
 <p align="center">
   <img src="images/good_tates.png" width = 400>
 </p>
 
-
-The main goal of Genius is to explain lyrics and help make them more accessible to listeners. Generally, these are explanations regarding the semantic and/or cultural meanings behind lyrics, which can often cryptic and filled with linguistic subtleties that we wouldn't normally expect a computer to pick up on, like the double meaning in this line of Frank Ocean's *Pilot Jones*:
+For example, this is a good explanation of the double meaning in this line of Frank Ocean's *Pilot Jones*:
 
 <p align="center">
   <img src="images/frank_ann.png" width = 400>
   <br></br>
   <img src="images/frank.png" width = 400>
 </p>
-
 
 However, annotations can be anything that helps add to the experience of the music, which isn't limited to this sort of explanation. For example, verified artists can annotate their own lyrics, and often discuss how they were feeling the day they wrote the lines, rather than explaining the meaning behind them.
 
@@ -76,13 +81,15 @@ Eminem does this a lot, actually. For example...
   <img src="images/rapgod_tate.png" width = 400>
 </p>
 
-# Strategy and Process
-## Why not BoW?
+### A Potential Solution
+Thanks to some exciting innovations in NLP over the past few years, it might be possible to create an evaluation system that automatically accepts/rejects user-submitted annotations.
+
+**Why not BoW?**
 The Tf-idf and BoW approach to text encoding might not be best at capturing what we're looking for, since they represent language based on a more simplified perspective of frequency and co-occurrence of words. When we're looking at *meaning,* it's easy to see how these methods could fall short.
 
 For example, the words "like" and "love" are almost identical in semantic meaning and linguistic function. However, they might not occur near each other, since they're almost too similar for someone to consistently use them alongside each other.
 
-## Doc2Vec to the Rescue!
+**Doc2Vec to the Rescue!**
 But, the words that occur around "like" and "love" are likely similar and could tell us more about their actual usage patterns. That's what Doc2Vec uses to help pick up on more subtle linguistic patterns, which is why Doc2Vec is likely better suited to this lyric-annotation problem than other text-encoding methods.
 
 <p align="center">
@@ -93,9 +100,7 @@ But, the words that occur around "like" and "love" are likely similar and could 
   <img src="images/pmi_funct.png" width = 800>
 </p>
 
-
-## Learning a Word from its Context
-
+**Learning a Word from its Context**
 Doc2Vec is a neural network model that strives to learn how to best encode words, and documents, into vectors that represent their contextual orientation, based on what it learned in training.
 
 The idea is that as you read lines of text, a latent "context window" traverses through the text and captures the aggregate meaning of the words within, but continues to shift and evolve as it moves along the text.
@@ -120,50 +125,44 @@ Will this work similarly for Doc2Vec vectors when the semantic or contextual mea
 
 The idea behind this project is that the DocVec representations of lyric segments and their corresponding annotations will be inherently more similar if they are good annotations, whereas those of bad annotations will not be similar. If this is true, then we can systematically use this metric to infer the DocVec representations of unseen annotations to determine whether they should be "accepted" or not. 
 
-
-### Architecture of Doc2Vec
-
-As an extension of Word2Vec, which was originally published in 2013, Doc2Vec has two architectural flavors.
-
-* Distributed Bag of Words
-    * Pr(word | surrounding words)
-* Distributed Memory
-    * Pr(surrounding words | word)
-    * Generally has been found to perform better, particularly with semantic tasks
-
-<p align="center">
-  <img src="images/doc2vec.png" width = 600>
-</p>
-
-
-## Necessary Assumptions
+## Assumptions & Hypothesis
+### Assumptions
 * Distributional Hypothesis: words that frequently occur near each other will have similar semantic meanings
 
 * "Good" annotations are contextually similar to the lyric they describe. Compared to the lyrics they describe, annotations are more verbose and use plain language (as opposed to prose) and are more explicitly clear.
 
 * The vocabulary used by annotations will generally not be the same as the vocabulary used in the annotation itself, except with specific rare/slang words that are the object of discussion. When they are similar, this isn't as much about the quality of the annotation -- most annotations can, and do, repeat some of the exact verbage of the lyrics. What matters is that the words utilized that aren't identical in literal vocabulary ARE similar in their semantic/contextual meaning. AKA, they tend to have "similar neighbors" as each other.
 
+### Hypothesis
+If the above assumptions hold true, an appropriately-trained Doc2Vec model will be able to infer vector representations of unseen lyrics and annotations that are more similar for good annotations than for bad annotations. 
+
+<p align="center">
+  <img src="images/analogy.png" width = 500>
+  <br></br>
+  <img src="images/w2v.png" width = 500>
+</p>
+
+## Methodology
+- Obtain data from API
+- Preprocess text
+- Train Doc2Vec model on preprocessed text data
+- Obtain inferred Doc2Vec representations of lyric-annotation pairs
+- Calculate similarity metric of pairs
+- Convert select DocVec representation to 3-dimensions using t-SNE
+- Represent t-SNE representations graphically
+
 
 [Back to Top](#Table-of-Contents)
 
 
-# Overview of the Data
+# Data Overview
 This data came from the Genius API and has been stored in both MongoDB and .csv files using BeautifulSoup, requests, and johnwmillr's [LyricsGenius](https://github.com/johnwmillr/LyricsGenius). This information came from scraping all annotations from the top 50 songs from the 20 most active artists on Genius.
 
-I pulled the text and other characteristic features for annotations and their corresponding lyric segments. Although I had planned to get about 17,000 observations, I ended up with 3,573 lyric-annotation pairs.
-
-Unfortunately, the Genius API does not provide access to data on "rejected" annotations. Thus, we need to use other features to help us distinguish between "good" and "bad" annotations.
-
-### Engineered Features
-- Votes per 100k viewers
-- Character count for text
-- Word count for text
-- Cosine Similarity of annotation-lyric pairs
-
+I pulled the text and other characteristic features for annotations and their corresponding lyric segments. Although I had originally planned to get about 17,000 observations, I ended up working with 3,573 lyric-annotation pairs.
 
 [Back to Top](#Table-of-Contents)
 
-## Distribution of Groups
+## Exploratory Data Analysis
 
 ### Top 12 Artists on Genius
 
@@ -182,27 +181,59 @@ Unfortunately, the Genius API does not provide access to data on "rejected" anno
 |11| Ariana Grande | 41 | 273 |
 |12| Beyoncé | 12 | 115 |
 
-
 <p align="center">
   <img src="images/annotations_votersi.jpg" width = 400>
   <img src="images/annotations_voters_stdz.jpg" width = 400>
 </p>
 
+## Engineered Features
+- Votes per 100k viewers
+- Character count for text
+- Word count for text
+- Cosine Similarity of annotation-lyric pairs
 
-## Engineering Data for Testing
+## Challenges
+
+Unfortunately, the Genius API does not provide access to data on "rejected" annotations. Thus, we need to use other features to help us distinguish between "good" and "bad" annotations.
 
 It looks like "Votes" might not be a great metric for determinng whether an annotation is good or not! However, there are many studies in the past that have had promising experiences using Doc2Vec to predict whether a piece of text is similar to another piece of text. Researchers have often created datasets to do this by mixing up pairings between sentences and paragraphs, which they do or don't belong to, and compared the similarity of vectors from true matches and false matches.
 
 For testing, I decided to randomly assign lyric-annotation pairs that were tied to music from different artists. Then, I wanted to examine whether there was a statistically significant difference between the true pairs and the mismatched pairs of lyrics and annotations. If the DocVecs were able to pick up on the relevant context patterns, I'd expect "good"/"true" pairs to be more similar than their "bad"/"mismatched" partners.
 
-
 [Back to Top](#Table-of-Contents)
 
 
 # Model Selection
+Gensim's Doc2Vec model
 
-## Key Choices
-### Training Data
+## Model Architecture 
+As an extension of Word2Vec, which was originally published in 2013, Doc2Vec has two architectural flavors.
+
+* Distributed Bag of Words
+    * Pr(word | surrounding words)
+* Distributed Memory
+    * Pr(surrounding words | word)
+    * Generally has been found to perform better, particularly with semantic tasks
+
+<p align="center">
+  <img src="images/doc2vec.png" width = 600>
+</p>
+
+Distributed Memory Model
+
+<p align="center">
+  <img src="images/d2v.png" width = 400>
+</p>
+
+## Training Corpus
+### Transfer Learning
+Since there are only 3,500 data points, making the model vulnerable to overfitting, it'd be wise to consider using pretrained word vectors that have already been exposed to millions, or more, words. 
+
+However, I was unable to find any pretrained models that were exposed to text comparable to these lyric and annotation pairs. The majority of pretrained word vectors have been trained on Wikipedia articles or similar text, which is fairly academic and less prone to poetic or naturalistic tendencies than these lyrics and annotations. 
+
+I made the decision to use models trained only on this Genius annotation/lyric data because it would be misleading to use a model trained primarily on text that is so inherently different from the target data. 
+
+### Categories of Texts
 With two distinct types of text that need to be encoded in comparable context window dimensions, which should my model be trained on?
 
 Trained 4 different training corpus variations for comparison:
@@ -211,15 +242,18 @@ Trained 4 different training corpus variations for comparison:
   * Lyrics & Annotations
   * Lyrics & Annotations (with distinguishing tag)
 
-## Model Architecture
-Distributed Memory Model
+## Hyperparameter Tuning
+| | Artist | Songs in Corpus | Total Annotations |
+|--- | --- | --- | --- |
+|1| | 33 | 314 |
+|2|  | 43 | 426 |
+|3|Kendrick Lamar | 35 | 350 |
+|4| Kanye West | 35 | 341 |
+|5| The Weeknd | 34 | 286 |
+|6| J. Cole | 46 | 438 |
 
-<p align="center">
-  <img src="images/d2v.png" width = 400>
-</p>
 
-## Model Evaluation
-
+## Performance Metrics
 - Self-Recognition
   * Infer DocVectors for each training data point
   * Find the most similar DocVector, based on training
@@ -236,7 +270,16 @@ Distributed Memory Model
   <img src="images/legend1.png" width = 600>
 </p>
 
-## Chosen Model Specs (So Far)
+- [Chosen Model](#chosen-model)
+  - [Specifications](#specifications)
+  - [Model Assessment](#model-assessment)
+  - [Results & Interpretation](#results-&-interpretation)
+
+# Chosen Model
+## Specifications
+|  |  |  |  |
+|--- | --- | --- | --- |
+|  |  |  |  |
 
 * Gensim's Doc2Vec Model
 * Distributed Memory architecture 
@@ -248,16 +291,17 @@ Distributed Memory Model
 
 [Back to Top](#Table-of-Contents)
 
-# Results
-Using the preferred model specifications described above:
+## Model Assessment
+### Self-Recognition
+Self-recognition score of 
 
+### Hypot test w/ mismatched pairs
 <p align="center">
   <img src="images/cs_dist_rt100.jpg" width = 800>
   <br></br>
   <img src="images/legend2.png" width = 300>
 </p>
 
-## Hypothesis Testing
 Using the cosine similarities calculated across annotation-lyric pairs for "true" and "mistmatched" groups, hypothesis testing yielded interesting results!
 
 
@@ -275,6 +319,10 @@ Therefore, this evidence suggests that using a Doc2Vec model to infer vector rep
 
 It's important to note that this particular hypothesis test is done to determine whether the means of the cosine similarities for the true-match and the false-match pairs are statistically different from each other, when doc2vec DocVectors are obtained from a model trained on the preferred specifications (outlined above). This shows that it is possible obtain the results we hoped to find, using Doc2Vec, but it doesn't necessarily prove that they are reliable or that it is truly measuring the difference in meaning across these lyric-annotation pairs. It merely shows that there is more work to be done! 
 
+## Results & Interpretation 
+### Visualization: Reducing Dimensionality with t-SNE 
+
+
 [Back to Top](#Table-of-Contents)
 
 # Conclusion
@@ -288,10 +336,29 @@ While I did find a model that produced interesting results, more data is necessa
 It also seems like my assumption about the nature of Genius annotations does not hold as well as I expected. Many of the annotations I observed during this project were "off topic", at least in my opinion, and tended to link lyrics to indirect outside cultural events, rather than focusing on explaining their meaning. 
 
 ## Future Work
-
 We may have found evidence supporting the claim that Doc2Vec can help distinguish between "good" and "bad" annotation pairs, but more research is needed with more data. The investigation of this project has revealed that this dataset might not satisfy the necessary assumptions, but that we still have something to learn from lyric-annotation Doc2Vecs that could be useful in creating an automatic evaluation system for annotations. 
 
 [Back to Top](#Table-of-Contents)
 
+# Acknowledgements
+- DSI instructors: Frank Burkholder, Danny Lumian, Kayla Thomas
+- Cohort Peers working with NLP: Matt Devor, Aiden Jared, Lei Shan
+- johnwmillr's [LyricsGenius](https://github.com/johnwmillr/LyricsGenius)
+- [Gensim's Doc2Vec model](https://radimrehurek.com/gensim/models/doc2vec.html)
+- [Robert Meyer's Presentation from PyData's 2017 Berlin Conference] (https://www.youtube.com/watch?v=zFScws0mb7M)
+- [Andy Jones' blog on the mechanics of Word2Vec](https://andyljones.tumblr.com/post/111299309808/why-word2vec-works)
+
+## Citations
+Word2Vec Paper
+[Mikolov, T., Sutskever, I., Chen, K., Corrado, G. S., & Dean, J. (2013). Distributed representations of words and phrases and their compositionality. In Advances in neural information processing systems (pp. 3111-3119).](https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf)
+
+Random Walks on Context Spaces Paper
+[Arora, S., Li, Y., Liang, Y., Ma, T., & Risteski, A. (2015). Rand-walk: A latent variable model approach to word embeddings. arXiv preprint arXiv:1502.03520.](https://arxiv.org/abs/1502.03520)
+
+Doc2Vec Papers
+[Le, Q., & Mikolov, T. (2014, January). Distributed representations of sentences and documents. In International conference on machine learning (pp. 1188-1196).](https://arxiv.org/abs/1405.4053)
+
+[Lau, J. H., & Baldwin, T. (2016). An empirical evaluation of doc2vec with practical insights into document embedding generation. arXiv preprint arXiv:1607.05368.](https://arxiv.org/abs/1607.05368)
 
 
+[Back to Top](#Table-of-Contents)
