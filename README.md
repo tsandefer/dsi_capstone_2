@@ -63,22 +63,18 @@ So, what makes a good Genius annotation?
   <img src="images/good_tates.png" width = 400>
 </p>
 
-For example, this is a good explanation of the double meaning in this line of Frank Ocean's *Pilot Jones*:
+For example, this is a good explanation of the double meaning in this line of [Frank Ocean's *Pilot Jones*](https://genius.com/895793):
 
 <p align="center">
-  <img src="images/frank_ann.png" width = 400>
-  <br></br>
-  <img src="images/frank.png" width = 400>
+  <img src="images/pilot_jones_pair.png" width = 800>
 </p>
 
 However, annotations can be anything that helps add to the experience of the music, which isn't limited to this sort of explanation. For example, verified artists can annotate their own lyrics, and often discuss how they were feeling the day they wrote the lines, rather than explaining the meaning behind them.
 
-Eminem does this a lot, actually. For example...
+Eminem does this a lot, actually. Here's an example of this from [Eminem's *Rap God*](https://genius.com/2566991):
 
 <p align="center">
-  <img src="images/rapgod_lyric.png" width = 400>
-  <br></br>
-  <img src="images/rapgod_tate.png" width = 400>
+  <img src="images/rapgod_pair.png" width = 800>
 </p>
 
 ### A Potential Solution
@@ -118,7 +114,7 @@ Interestingly, Word2Vec vectors have been found to have arithmetic properties th
 <p align="center">
   <img src="images/analogy.png" width = 500>
   <br></br>
-  <img src="images/w2v.png" width = 500>
+  <img src="images/w2v_analogy.png" width = 600>
 </p>
 
 Will this work similarly for Doc2Vec vectors when the semantic or contextual meanings between two documents are similar? 
@@ -137,9 +133,7 @@ The idea behind this project is that the DocVec representations of lyric segment
 If the above assumptions hold true, an appropriately-trained Doc2Vec model will be able to infer vector representations of unseen lyrics and annotations that are more similar for good annotations than for bad annotations. 
 
 <p align="center">
-  <img src="images/analogy.png" width = 500>
-  <br></br>
-  <img src="images/w2v.png" width = 500>
+  <img src="images/d2v_hypot.png" width = 600>
 </p>
 
 ## Methodology
