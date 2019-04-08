@@ -325,7 +325,7 @@ We may have found evidence supporting the claim that Doc2Vec can help distinguis
 # Acknowledgements
 - [Genius.com](https://genius.com/)
 - DSI instructors: Frank Burkholder, Danny Lumian, Kayla Thomas
-- Cohort Peers working with NLP: Matt Devor, Aiden Jared, Lei Shan
+- Cohort Peers working with NLP: Matt Devor, Aidan Jared, Lei Shan
 - johnwmillr's [LyricsGenius](https://github.com/johnwmillr/LyricsGenius)
 - [Gensim's Doc2Vec model](https://radimrehurek.com/gensim/models/doc2vec.html)
 - [Robert Meyer's Presentation from PyData's 2017 Berlin Conference](https://www.youtube.com/watch?v=zFScws0mb7M)
