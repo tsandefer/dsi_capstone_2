@@ -66,7 +66,7 @@ So, what makes a good Genius annotation? According to Genius,
   <img src="images/good_tates.png" width = 400>
 </p>
 
-For example, this is a good explanation of the double meaning in this line of [Frank Ocean's *Pilot Jones*](https://genius.com/895793):
+For example, this is a good explanation of the double meaning behind this line from [Frank Ocean's *Pilot Jones*](https://genius.com/895793):
 
 <p align="center">
   <img src="images/pilot_jones_pair.png" width = 800>
@@ -91,11 +91,9 @@ The idea is that as you read lines of text, a latent "context window" traverses 
   <img src="images/context_window.gif" width = 600>
 </p>
 
-Thanks to this exciting innovation in NLP, it might be possible to create an evaluation system that automatically accepts/rejects user-submitted annotations. 
+Doc2Vec is designed to pick up on these subtle linguistic patterns, which is why it's likely better suited to this lyric-annotation problem than other text-encoding methods, like BoW/Tf-idf. Instead of using a frequentistic measure of occurrence or co-occurence, Doc2Vec attempts to measure association between words with a combination of both through pointwise mutual information.
 
 > “The meaning of a word can be inferred by the company it keeps"
-
-Doc2Vec is designed to pick up on more subtle linguistic patterns, which is why it's likely better suited to this lyric-annotation problem than other text-encoding methods, like BoW/Tf-idf.
 
 <p align="center">
   <img src="images/PMI.png" width = 300>
@@ -104,6 +102,8 @@ Doc2Vec is designed to pick up on more subtle linguistic patterns, which is why 
   <br></br>
   <img src="images/pmi_funct.png" width = 800>
 </p>
+
+Thanks to this exciting innovation in NLP, it might be possible to create an evaluation system that automatically accepts/rejects user-submitted annotations based on the similarity of their Doc2Vec representations. 
 
 ### Properties of Word/Doc2Vec
 
@@ -146,7 +146,6 @@ If the assumptions hold true, an appropriately-trained Doc2Vec model will be abl
 - Convert select DocVec representation to 3-dimensions using t-SNE
 - Represent t-SNE representations graphically
 
-
 [Back to Top](#Table-of-Contents)
 
 
@@ -154,8 +153,6 @@ If the assumptions hold true, an appropriately-trained Doc2Vec model will be abl
 This data came from the Genius API and has been stored in both MongoDB and .csv files using BeautifulSoup, requests, and johnwmillr's [LyricsGenius](https://github.com/johnwmillr/LyricsGenius). This information came from scraping all annotations from the top 50 songs from the 20 most active artists on Genius.
 
 I pulled the text and other characteristic features for annotations and their corresponding lyric segments. Although I had originally planned to get about 17,000 observations, I ended up working with 3,573 lyric-annotation pairs.
-
-[Back to Top](#Table-of-Contents)
 
 ## Exploratory Data Analysis
 
@@ -217,15 +214,8 @@ As an extension of Word2Vec, which was originally published in 2013, Doc2Vec has
     * Generally has been found to perform better, particularly with semantic tasks
 
 <p align="center">
-  <img src="images/doc2vec.png" width = 600>
-</p>
-
-
-<p align="center">
   <img src="images/model_path.gif" width = 600>
 </p>
-
-
 
 ## Training Corpus
 ### Transfer Learning
@@ -247,11 +237,10 @@ Trained 4 different training corpus variations for comparison:
 ## Hyperparameter Tuning
 | Hyperparameter | Description | Default Value |
 |--- | --- | --- |
-| window |  | 5 |  
-| vector_size | 100 |  |  
-| epochs |  |  |  
+| window | number of words in context window | 5 |  
+| vector_size | number of nodes in hidden layer | 100 |  
+| epochs | number of iterations through the data | 100 |  
 |  |  |  |  
-
 
 ## Performance Metrics
 - Self-Recognition
@@ -262,7 +251,7 @@ Trained 4 different training corpus variations for comparison:
   * Each of my models were achieving self-recognition for around 97-99.4% of the training data
    * Except for the model that I trained on tagged annotations and lyrics, which achieved roughly 17%
 
-- Comparison against best/worst pairs classified by Standardized Votes
+- Comparison against best/worst pairs 
 
 <p align="center">
   <img src="images/cs_sim_final.png" width = 800>
@@ -270,16 +259,10 @@ Trained 4 different training corpus variations for comparison:
   <img src="images/legend1.png" width = 600>
 </p>
 
-- [Chosen Model](#chosen-model)
-  - [Specifications](#specifications)
-  - [Model Assessment](#model-assessment)
-  - [Results & Interpretation](#results-&-interpretation)
+[Back to Top](#Table-of-Contents)
 
 # Chosen Model
 ## Specifications
-|  |  |  |  |
-|--- | --- | --- | --- |
-|  |  |  |  |
 
 * Gensim's Doc2Vec Model
 * Distributed Memory architecture 
@@ -289,13 +272,11 @@ Trained 4 different training corpus variations for comparison:
 * window = 5
 * 100 epochs
 
-[Back to Top](#Table-of-Contents)
-
 ## Model Assessment
 ### Self-Recognition
 Self-recognition score of 
 
-### Hypot test w/ mismatched pairs
+### Hypothesis Test between True and Mismatched Pairs
 <p align="center">
   <img src="images/cs_dist_rt100.jpg" width = 800>
   <br></br>
@@ -304,14 +285,12 @@ Self-recognition score of
 
 Using the cosine similarities calculated across annotation-lyric pairs for "true" and "mistmatched" groups, hypothesis testing yielded interesting results!
 
-
 ```H0: The mean of the Cosine Similarity for false-match pairs is equal to the mean of the Cosine Similarity for true-match pairs```
 
 |Statistic | Result |
 |--- | --- |
 |t-Stat| 29.32|
 |p-val| 1.1e-171 |
-
 
 This p-value is very close to zero, allowing us to reject the null hypothesis at the 99% confidence level, given the observed data and that other assumptions hold true.
 
