@@ -272,9 +272,7 @@ Trained 4 different training corpus variations for comparison:
 * window = 5
 * 100 epochs
 
-## Model Assessment
-### Self-Recognition
-Self-recognition score of 
+## Model Assessment 
 
 ### Hypothesis Test between True and Mismatched Pairs
 <p align="center">
