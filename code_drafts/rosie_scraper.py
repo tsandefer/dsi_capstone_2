@@ -9,7 +9,6 @@ import lyricsgenius
 import pymongo
 import csv
 
-
 GENIUS_CLIENT_ACCESS_TOKEN = os.environ['GENIUS_CLIENT_ACCESS_TOKEN']
 
 defaults = {
@@ -43,7 +42,8 @@ def get_artist_id(artist_name):
 
 def request_top50_songs_data(artist_id):
     search_url = base_url + '/artists/' + str(artist_id) + '/songs'
-    full_url = search_url + '?sort=popularity&per_page=50'
+    # full_url = search_url + '?sort=popularity&per_page=50'
+    full_url = search_url + '?sort=popularity&per_page=100&page=2'
     top50_songs_data = requests.get(full_url, headers=headers).json()
     # top50_songs will be a list of the top 50 songs, each as json dicts of info
     top50_songs = top50_songs_data['response']['songs']
@@ -67,11 +67,14 @@ def make_song_dict(song, artist_name):
 
 def _get_full_lyrics(genius, song_id, song_title, artist_name):
     song = genius.search_song(song_title, artist_name)
-    lyrics = song.lyrics
-    full_lyrics = lyrics.split('\n')
-    for line in full_lyrics:
-         if len(line) == 0:
-             full_lyrics.remove(line)
+    try:
+        lyrics = song.lyrics
+        full_lyrics = lyrics.split('\n')
+        for line in full_lyrics:
+             if len(line) == 0:
+                 full_lyrics.remove(line)
+    except:
+        full_lyrics = 'NA'
     return full_lyrics
 
 def populate_rt_dict(genius, song_id, rt_ids, rt_dict, song_info_dict, artist_name, artist_id):
@@ -110,7 +113,6 @@ def populate_rt_dict(genius, song_id, rt_ids, rt_dict, song_info_dict, artist_na
                             'comment_cnt': tate['annotation']['comment_count'],
                             'artist_name': artist_name,
                             'artist_id': artist_id}
-
     return rt_dict
 
 if __name__ == '__main__':
@@ -118,9 +120,68 @@ if __name__ == '__main__':
     # artist_names = get_artist_names(artists_filename)
     # all-time top 20 artists on Genius
 
-    artist_names = ['Travis Scott', 'Future', 'Frank Ocean', 'Nicki Minaj', 'Childish Gambino', 'Ed Sheeran', 'A$AP Rocky', 'Logic']
+    # artist_names = ['Travis Scott', 'Future',
+    # 'Frank Ocean', 'Nicki Minaj', 'Childish Gambino',
+    # 'Ed Sheeran', 'A$AP Rocky', 'Logic']
+    '''
+    GOT: [1,212]
+        Travis Scott (297)
+        Frank Ocean (319)
+        Future (167)
+        Childish Gambino (418)
+        Ed Sheeran (245)
+        A$AP Rocky (273)
+        Logic (309)
 
-    genius = lyricsgenius.Genius(GENIUS_CLIENT_ACCESS_TOKEN, verbose=False, remove_section_headers=True)
+        Drake
+
+    ISSUES:
+        Nicki Minaj (only 11..?!)
+        Logic - got 309, but errored out --
+            song_info_dict, song_id, song_title = make_song_dict(song, artist_name)
+            full_lyrics = _get_full_lyrics(genius, song_id, song_title, artist_name)
+            song = genius.search_song(song_title, artist_name)
+            song_info = self.get_song(result['id'])['song']
+            TypeError: 'NoneType' object is not subscriptable
+        J. Cole
+        Original Broadway Cast of Hamilton
+                KeyError: 'pageviews'
+        Ariana Grande
+                ConnectionError: ('Connection aborted.', OSError("(54, 'ECONNRESET')"))
+        Frank Ocean (got 81 tho)
+            ReadTimeout: HTTPSConnectionPool(host='genius.com', port=443): Read timed out. (read timeout=5)
+
+        Drake - errored on page 3
+            KeyError: 'songs'
+
+    PARTII DONE:
+        Eminem
+        Kendrick Lamar
+        Kanye West
+        The Weeknd
+        XXXTENTACION
+        Lil Wayne
+        JAY-Z
+        Beyoncé
+        Travis Scott
+        Future
+
+        Nicki Minaj (?)
+        Childish Gambino
+        Ed Sheeran
+        A$AP Rocky
+
+    TO GO:
+        Logic
+
+    ** think issue comes from some of the songs not having lyrics...
+
+    w/ JCole p2, getting 'ProtocolError: ('Connection aborted.', OSError("(54, 'ECONNRESET')"))' error... kicked out?
+
+    '''
+    artist_names = ['Eminem']
+
+    genius = lyricsgenius.Genius(GENIUS_CLIENT_ACCESS_TOKEN, sleep_time=1, verbose=False, remove_section_headers=True)
 
     artist_id_dict = dict()
     song_id_dict = dict()
@@ -156,4 +217,4 @@ if __name__ == '__main__':
     cols = ['ref_text','tate_text', 'votes_total', 'verified', 'state', 'song_id', 'song_title', 'full_title', 'song_tate_cnt', 'hot_song', 'pageviews', 'n_unreviewed_tates', 'full_lyrics', 'url', 'n_tate_contributors', 'primary_contributor_id', 'primary_contributor_IQ', 'has_voters', 'comment_cnt', 'artist_name', 'artist_id']
 
     rt_df2 = pd.DataFrame.from_dict(rt_dict, orient='index', columns=cols)
-    rt_df2.to_csv('rt_data_dump.csv')
+    rt_df2.to_csv('rt_data_dump_eminem_p3.csv')

@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-%matplotlib inline
 from gensim.models.doc2vec import TaggedDocument
 from sklearn.model_selection import train_test_split
 import re
@@ -84,7 +83,10 @@ def main():
     df = make_txt_length_features(df)
     df = remove_verse_tags_from_tate_text(df)
     drop_select_parenthesis_referents(df)
+    # df.to_csv('../data/preprocessed_data.csv')
     return df
 
 if __name__ == '__main__':
-    main()
+    df = main()
+    df.to_csv('../data/preprocessed_data.csv')
+    print("Data has been preprocessed and saved!")
