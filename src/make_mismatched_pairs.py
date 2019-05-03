@@ -3,20 +3,9 @@ import numpy as np
 
 import pickle
 import re
-
-from gensim.test.utils import common_texts, get_tmpfile
-from gensim.models.doc2vec import Doc2Vec, TaggedDocument
-import spacy
-from sklearn.model_selection import train_test_split
-import gensim
-import os
-import collections
-import smart_open
 import random
-from sklearn.metrics.pairwise import cosine_similarity
-from scipy.spatial.distance import cosine
 
-from segment_data import save_in_pkl
+from prepare_data import save_in_pkl
 
 def read_in_pkl(name):
     filename = '../data/' + name + '.pkl'
