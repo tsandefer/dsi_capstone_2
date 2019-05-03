@@ -4,12 +4,11 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.ticker import MaxNLocator
 
-
 from sklearn.manifold import TSNE
 
-from segment_data import save_in_pkl
-from pair_data import read_in_pkl
-from d2v_modeling_classes import Doc2VecModeler
+from prepare_data import save_in_pkl
+from make_mismatched_pairs import read_in_pkl
+from Doc2Vec_Modeler import Doc2VecModeler
 
 def get_doc_ids(rt_id_lst, rt_doc_train_dict):
     return [rt_doc_train_dict[rt_id] for rt_id in rt_id_lst]
