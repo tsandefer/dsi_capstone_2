@@ -3,15 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from scipy.stats import ttest_ind
-
-from gensim.test.utils import common_texts, get_tmpfile
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
-import spacy
-from sklearn.model_selection import train_test_split
 import gensim
-import os
-import collections
-import smart_open
 import random
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.spatial.distance import cosine, euclidean
@@ -19,8 +12,8 @@ import re
 import preprocessing
 from sklearn.linear_model import LogisticRegression, LinearRegression
 
-from segment_data import save_in_pkl
-from pair_data import read_in_pkl
+from prepare_data import save_in_pkl
+from create_mismatched_pairs import read_in_pkl
 
 class Doc2VecModeler(object):
     '''
@@ -115,7 +108,8 @@ class Doc2VecModeler(object):
         min_true_pair_cs = calc_pairings_df[is_true_pair]['pair_cs'].min()
         min_false_pair_cs = calc_pairings_df[~is_true_pair]['pair_cs'].min()
 
-        pair_cs_stats = {'avg_tru':avg_true_pair_cs, 'avg_false':avg_false_pair_cs, 'max_tru':max_true_pair_cs, 'max_false':max_false_pair_cs, 'min_tru':min_true_pair_cs, 'min_false':min_false_pair_cs}
+        pair_cs_stats = {'avg_tru':avg_true_pair_cs, 'avg_false':avg_false_pair_cs, 'max_tru':max_true_pair_cs, 
+                         'max_false':max_false_pair_cs, 'min_tru':min_true_pair_cs, 'min_false':min_false_pair_cs}
 
         avg_true_pair_ed = calc_pairings_df[is_true_pair]['pair_ed'].mean()
         avg_false_pair_ed = calc_pairings_df[~is_true_pair]['pair_ed'].mean()
@@ -124,7 +118,8 @@ class Doc2VecModeler(object):
         min_true_pair_ed = calc_pairings_df[is_true_pair]['pair_ed'].min()
         min_false_pair_ed = calc_pairings_df[~is_true_pair]['pair_ed'].min()
 
-        pair_ed_stats = {'avg_tru':avg_true_pair_ed, 'avg_false':avg_false_pair_ed, 'max_tru':max_true_pair_ed, 'max_false':max_false_pair_ed, 'min_tru':min_true_pair_ed, 'min_false':min_false_pair_ed}
+        pair_ed_stats = {'avg_tru':avg_true_pair_ed, 'avg_false':avg_false_pair_ed, 'max_tru':max_true_pair_ed, 
+                         'max_false':max_false_pair_ed, 'min_tru':min_true_pair_ed, 'min_false':min_false_pair_ed}
 
         if is_train:
             self.tr_pairings_df = calc_pairings_df.copy()
@@ -211,7 +206,12 @@ class DocVecModelEvaluator(object):
     Uses Gensim's Doc2Vec model to keep track of different model variations for comparison
     '''
     def __init__(self):
-        self.eval_areas_dict = {'model':0, 'self_recog_rate':0,'cs_train_p_val':0, 'cs_test_p_val':0, 'ed_train_p_val':0, 'ed_test_p_val':0, 'cs_is_train_significant':0, 'cs_is_test_significant':0, 'ed_is_train_significant':0, 'ed_is_test_significant':0, 'tr_cs_pairings_stats': 0, 'tst_cs_pairings_stats':0, 'tr_ed_pairings_stats':0, 'tst_ed_pairings_stats':0}
+        self.eval_areas_dict = {'model':0, 'self_recog_rate':0,'cs_train_p_val':0, 'cs_test_p_val':0, 
+                                'ed_train_p_val':0, 'ed_test_p_val':0, 'cs_is_train_significant':0, 
+                                'cs_is_test_significant':0, 'ed_is_train_significant':0, 
+                                'ed_is_test_significant':0, 'tr_cs_pairings_stats': 0, 
+                                'tst_cs_pairings_stats':0, 'tr_ed_pairings_stats':0, 
+                                'tst_ed_pairings_stats':0}
         self.eval_dict = dict()
 
     def train_new_model(self, model_name, train_corpus, train_corp_name, vector_size):
@@ -307,7 +307,10 @@ if __name__ == '__main__':
 
     # model_specs = {'training_corpus':[ref_train_pcorpus, tate_train_pcorpus, rt_train_pcorpus, rt_tagged_train_pcorpus], 'vector_size':[50, 100, 200, 300], 'window':[3, 5, 7], 'epochs':[30, 50, 70, 90, 110, 130]}
 
-    model_specs = {'training_corpus':[ref_train_pcorpus, tate_train_pcorpus, rt_train_pcorpus, rt_tagged_train_pcorpus], 'vector_size':[50, 100, 200], 'window':[3, 5, 7], 'epochs':[25, 50, 110]}
+    model_specs = {'training_corpus':[ref_train_pcorpus, tate_train_pcorpus, rt_train_pcorpus, rt_tagged_train_pcorpus], 
+                   'vector_size':[50, 100, 200], 
+                   'window':[3, 5, 7], 
+                   'epochs':[25, 50, 110]}
 
     doc_eval = DocVecModelEvaluator()
 
