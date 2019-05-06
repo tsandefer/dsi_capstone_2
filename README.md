@@ -2,11 +2,7 @@
 ![](images/genius_header2.png)
 ### Using Gensim's Doc2Vec to Evaluate Crowdsourced Lyric Annotations on Genius.com
 
-*Capstone II Project for Galvanize Data Science Immersive, Week 8*
-
-*by Taite Sandefer*
-
-*Last Updated: 4/7/19*
+*by Taite Sandefer* | *Capstone II Project for Galvanize Data Science Immersive, Week 8* | *Last Updated: 4/7/19*
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -150,7 +146,7 @@ If the assumptions hold true, an appropriately-trained Doc2Vec model will be abl
 
 
 # Data Overview
-This data came from the Genius API and has been stored in both MongoDB and .csv files using BeautifulSoup, requests, and johnwmillr's [LyricsGenius](https://github.com/johnwmillr/LyricsGenius). This information came from scraping all annotations from the top 50 songs from the 20 most active artists on Genius.
+This data came from the Genius API and has been stored in both MongoDB and .csv files using requests and johnwmillr's [LyricsGenius](https://github.com/johnwmillr/LyricsGenius). This information came from scraping all annotations from the top 50 songs from the 20 most active artists on Genius.
 
 I pulled the text and other characteristic features for annotations and their corresponding lyric segments. Although I had originally planned to get about 17,000 observations, I ended up working with 3,573 lyric-annotation pairs.
 
