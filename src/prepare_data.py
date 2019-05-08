@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import re
 import pickle
+import pymongo
 
 from sklearn.model_selection import train_test_split
 from gensim.models.doc2vec import TaggedDocument
