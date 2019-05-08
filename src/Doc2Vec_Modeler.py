@@ -29,6 +29,7 @@ class Doc2VecModeler(object):
 
     def fit_model(self, verbose=False):
         '''Builds and trains model according to specifications
+        CREDIT: Adapted from Gensim's Doc2Vec Tutorial https://github.com/RaRe-Technologies/gensim/blob/develop/docs/notebooks/doc2vec-lee.ipynb
         INPUT: Model specifications (when instantiated), verbose
         OUTPUT: Trained Doc2Vec model
         '''
@@ -44,6 +45,7 @@ class Doc2VecModeler(object):
 
     def calc_self_recognition_ability(self):
         '''Calculates the trained model's ability to recognize training documents as being most similar to themselves (across the corpus)
+        CREDIT: Adapted from Gensim's Doc2Vec Tutorial https://github.com/RaRe-Technologies/gensim/blob/develop/docs/notebooks/doc2vec-lee.ipynb
         INPUT: trained model, training docs
         OUTPUT: count/rate of self-recognition (int/float), test passed (bool)
         '''
