@@ -295,9 +295,20 @@ It's important to note that this particular hypothesis test is done to determine
 ## Results and Interpretation 
 ### Visualization: Reducing Dimensionality with t-SNE 
 
+Interestingly, we can visualize this the way we want using t-SNE, which is a form of dimensionality reduction. t-SNE works best when we're reducing from 50 or fewer dimensions, so here we're using inferred vectors of size 50 and reducing them to only 3 dimensions so we can visualize their location relative to each other.
+
+Keep in mind that this is fairly subjective: I selected 3 examples each of what I'd consider good and bad annotations. 
+
+The "good" annotations are represented by the darker colors: green, blue, and purple.
+The "bad" annotations are represented by the lighter colors: red, orange, and yellow. 
+
+This isn't exactly what I expected to see. It might even be the exact opposite. In particular, the "bad" lyric represented in red seems to really subvert my expectation. However, when I re-examined the content of its lyric and annotation, I noticed that the lyric was only one word long. Perhaps this is causing an issue with Doc2Vec because there basically is no context window that can be moved around this single word? Though I've done some searching, I haven't been able to figure out exactly how Doc2Vec treats single-word (or even smaller-than-the-context-window) documents. It seems like that might be part of the issue here, though! 
+
 <p align="center">
   <img src="images/comp_dist_3D_dv_reps.png" width = 900>
 </p>
+
+It also seems that this might not be the most accurate way to visualize the similarity between DocVecs. In the future, I hope to perform some PCA on higher-dimensional DocVecs (likely around 100, or more) and then apply t-SNE, which would likely do a better job at capturing the complex context signals. Of course, more data would likely do wonders to improve results as well. 
 
 [Back to Top](#Table-of-Contents)
 
